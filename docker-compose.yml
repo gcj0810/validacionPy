@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend  # Asegúrate de que esta ruta sea correcta
+    container_name: backend_validacion
+    environment:
+      FLASK_ENV: development
+      DB_HOST: host.docker.internal
+      DB_PORT: 5432
+      DB_NAME: validacion_fabricacion
+      DB_USER: root
+      DB_PASSWORD: root
+    ports:
+      - "5001:5001"  # Expone el puerto del backend Flask
+    volumes:
+      - ./backend:/app  # Mapea el código del backend en el contenedor
+    networks:
+      - my_network  # Agrega el servicio a la red
+
+  frontend:
+    build: ./frontend  # Cambia este path al directorio de tu frontend
+    container_name: frontend_validacion
+    ports:
+      - "80:80"  # Exponer el puerto 80 para el frontend
+    depends_on:
+      - backend  # Asegura que el backend esté levantado antes de servir el frontend
+    networks:
+      - my_network  # Agrega el servicio a la red
+
+networks:
+  my_network:
+    external: true  # Indica que esta red fue creada externamente
