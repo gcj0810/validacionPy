@@ -113,19 +113,20 @@ class Response(db.Model):
     __tablename__ = 'responses'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
-    subtracker_id = db.Column(db.Integer, db.ForeignKey('subtrackers.id'))
+    subtracker_id = db.Column(db.Integer, db.ForeignKey('subtrackers.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
-    device_id = db.Column(db.Integer, db.ForeignKey('devices.id'), nullable=True)
+    device_id = db.Column(db.Integer, db.ForeignKey('devices.id'), nullable=False)
     worker_id = db.Column(db.Integer, db.ForeignKey('workers.id'))
     response_text = db.Column(db.Text, nullable=True)
     status = db.Column(db.String(50), nullable=False, default='pending')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     comments = db.Column(db.Text, nullable=True)
+    responsable = db.Column(db.Text, nullable=True)
 
     # Relaciones
     question = db.relationship('Question', back_populates='responses')
     subtracker = db.relationship('Subtracker', back_populates='responses')
-    project = db.relationship('Project', back_populates='responses', overlaps="project_responses")
+    project = db.relationship('Project', back_populates='responses')
     worker = db.relationship('Worker', back_populates='responses')
 
 

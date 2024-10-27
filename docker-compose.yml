@@ -12,7 +12,7 @@ services:
       DB_USER: root
       DB_PASSWORD: root
     ports:
-      - "5001:5001"  # Expone el puerto del backend Flask
+      - "5001:7575"  # Expone el puerto del backend Flask
     volumes:
       - ./backend:/app  # Mapea el código del backend en el contenedor
     networks:
